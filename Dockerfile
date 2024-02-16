@@ -10,8 +10,7 @@ RUN apt-get update \
 RUN touch /var/log/blinkboard.log
 WORKDIR /code
 COPY requirements.txt /blink_board/
-RUN ls -la
-RUN pip install -r requirements.txt
+RUN pip install -r /blink_board/requirements.txt
 COPY . /blink_board/
 
 EXPOSE 8000
