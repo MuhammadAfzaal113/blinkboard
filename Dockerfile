@@ -8,7 +8,7 @@ RUN apt-get update \
 && apt-get install libnss3 libnss3-dev -y \
 && apt-get install -y cron
 RUN touch /var/log/blinkboard.log
-WORKDIR /
+WORKDIR /blinkboard/
 COPY requirements.txt /blinkboard/
 RUN pip install -r /blinkboard/requirements.txt
 RUN ls -la
