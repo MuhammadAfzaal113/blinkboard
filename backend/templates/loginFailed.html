@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BlinkBoard</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Add Custom Style CSS -->
+    <link rel="stylesheet" href="{% static 'backend/style.css' %}">
+    <style>
+        .Alert-container{
+        border: 1px solid red;
+        border-radius: 3px;
+        text-align:center;
+        background-color: #f001011f;
+        }
+    </style>
+</head>
+<body>
+    <section class="bb-main--body">
+        <div class="bb--screen-block login--screen" style="margin-top: 30vh; border:none;">
+            <div class="bb-login-screen-container">
+                <div class="bb-form-wrapper">
+                    <div class="bb-loginform__wrapper mx-auto">
+                        <div class="bb-loginform__inner">
+                            <div class="bb-loginform__logo-wrapper py-3 mb-3">
+                                <img src="{% static 'backend/logo.jpg' %}" alt="" class="bb-logo img-fluid">
+                            </div>
+                            <div class="bb-loginform__wrapper">
+                                <form  method="post" action="{% url 'backend:login' %}" id="login-form" class="bb__login-form mx-auto">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="login__username" placeholder="Username" name="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" id="login__password" placeholder="Password" name="password">
+                                    </div>
+                                    <div class="form-group Alert-container">
+                                        <p style="padding: 0.375rem 0.75rem; margin-bottom:0px;">Login Failed</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-success btn-block bb-form__btn" id="login__submit">Login</button>
+                                    <div class="form__alert alert fz-16 text-center" role="alert"></div>
+                                </form>
+                                <p class="mt-3 text-center fz-16">
+                                    Not a member yet? <a href="{% url 'backend:signup' %}" class="bb-form__switcher">Signup here</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Add Bootstrap JS -->
+<!--    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="sha384-ZVPiMxFg9P5gi7SOKVUv7aSbFSSt7/9XwHHg/jq4x7EJvFZ3xzfp++2QvMZ7GM3L" crossorigin="anonymous"></script>-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-Jjw8f+cdVhqhxDbzmgYKl0WbDq5blXhXu8jScqSAIn0uE9qb9BZZVdAgoasjKwn0" crossorigin="anonymous"></script>
+    <!-- Add Custom JavaScript for AJAX -->
+<!--    <script type="text/javascript" src="{% static 'backend/js/login.js' %}"></script>-->
+</body>
+</html>

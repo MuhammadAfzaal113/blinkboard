@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            overflow-x: hidden !important;
+        }
+
+        .nav {
+            position: fixed;
+            bottom: 0;
+            width: 23%;
+            height: 80px;
+
+            background-color: rgb(221, 221, 221);
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nav__link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: sans-serif;
+            font-size: 13px;
+            color: #444444;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+
+        .nav__link:hover {
+            background-color: #eeeeee;
+        }
+
+        .nav__link--active {
+            color: #009578;
+        }
+
+        .nav__icon {
+            font-size: 18px;
+        }
+
+        .hh {
+            background-color: rgb(221, 221, 221);
+
+        }
+
+
+
+        .main {
+            height: 100vh;
+        }
+
+        .img-flud {
+            width: 200px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, 50%);
+            position: absolute;
+        }
+
+        .img-flui {
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+
+        .profile-form {
+            max-width: 400px;
+            margin: auto;
+
+            padding: 20px;
+            border-radius: 8px;
+
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .profile-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        .profile-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .profile-image-container {
+            position: relative;
+            text-align: center;
+            margin: 0 auto;
+            width: 250px;
+            height: 250px;
+        }
+
+        .profile-image {
+            width: 250px;
+            height: 250px;
+
+            object-fit: cover;
+            border: 2px solid #ccc;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .replace-icon {
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .form-control:disabled {
+            background-color: #e9ecef00 !important;
+            opacity: 1;
+            border: aliceblue;
+        }
+
+        .home-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: sans-serif;
+            font-size: 13px;
+            color: #444444;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+
+        .change-image-button {
+            display: none;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 767px) {
+            .home-logo {
+                display: none;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            /* Hide the home logo for screens smaller than 767px */
+            .home-logo {
+                display: flex;
+            }
+
+            /* Adjust width for the bottom navigation bar in mobile view */
+            .nav {
+                width: 100%;
+                margin: -12px !important;
+                height: 90px !important;
+            }
+
+            .img-fluid {
+                display: none;
+            }
+
+            .iuid {
+                margin-left: 42px !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+        }
+
+        @media (min-width: 375px) and (max-width: 767px) {
+            .col-sm-3 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                height: auto !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+
+            .col-sm-9 {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+            .center-content {
+                display: none !important;
+            }
+            .center-container {
+                height: 3vh !important;
+                text-align: center;
+                margin-top: 0px !important;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1300px) {
+            .col-sm-3 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                height: auto !important;
+            }
+
+            .home-logo {
+                display: flex;
+            }
+
+            .col-sm-9 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                margin-left: 0 !important;
+            }
+
+            .img-fluid {
+                display: none;
+            }
+
+            .center-content {
+                display: none !important;
+            }
+
+            .col-sm-9 .container {
+                margin-top: 20% !important;
+            }
+
+            .center-container {
+                height: 3vh !important;
+                text-align: center;
+                margin-top: 0px !important;
+            }
+
+            .nav {
+                width: 100%;
+                margin: -12px;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+        }
+
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="row main">
+        <div class="col-sm-3  hh">
+            <div class="bb-nav-wrapper p-5">
+                <div class="bb-nav__inner">
+                    <div class="d-flex align-items-center " style="justify-content: center;">
+                        <!-- Logo 1 -->
+                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" class="img-fluid "
+                                style="height: 100px;min-width: 100px; float: left;"></a>
+
+                        <!-- Logo 2 -->
+                        <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
+                            style="width: 200px; text-align: center; flex-shrink: 0;">
+                    </div>
+
+                    <div class="bb-username--wrapper mb-4">
+                        <h3 class="fz-18 fw-semibold text-center">@{{ user.username }}</h3>
+                    </div>
+                    <div id="profile-form" class="bb-profie--info__wrapper">
+                        <div class="profile-image-container" id="profileImageContainer">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="Profile Image" class="profile-image" id="profileImage" />
+                            {% else %}
+                                <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="250" height="250">
+                            {% endif %}
+                            <div class="overlay" id="imageOverlay">
+                                <div class="replace-icon" onclick="triggerFileInput()">
+                                    <img style="height: 250px; width: 250px;" src="{% static 'backend/Graphics/ADDPROFILEPIC.png' %}"
+                                        alt="">
+                                </div>
+                            </div>
+                            <div class="change-image-button" onclick="changeImage()"></div>
+                        </div>
+
+                        <div class="bb-update__linkboard-btn text-center my-2 bb-home__header-left button__main fz-12">
+                            <button class="btn btn-primary fz-12 width-120" id="editButton" onclick="toggleEdit()">EDIT PROFILE</button>
+                        </div>
+
+                        <div class="profile-form" id="profileForm">
+
+                            <label for="location"
+                                class="bb-profile--info__title fz-14 text-center fw-reg fst-italic mb-2">Location:</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control fz-18 fw-semibold text-center" id="location"
+                                    value="{{ user.location }}" disabled>
+                            </div>
+
+                            <label for="quote"
+                                class="bb-profile--info__title fz-14 text-center fst-italic">Quote</label>
+                            <div class="form-group">
+                                <textarea class="form-control fz-16 fw-medium text-center" id="quote" rows="2"
+                                    disabled>{{ user.quote}}</textarea>
+                            </div>
+
+                            <label for="bio" class="bb-profile--info__title fz-14 text-center fst-italic" >Bio</label>
+                            <div class="form-group">
+                                <textarea class="form-control fz-16 fw-medium text-center" id="bio" rows="4" style="margin-bottom:70px;"
+                                    disabled>{{ user.bio }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" style="display: none;" accept="image/*"
+                        onchange="handleImageChange(this)">
+
+                </div>
+            </div>
+            <nav class="nav" style="margin-left:12px;">
+                <a href="#" class="home-logo" id="home_link">
+                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" style="height: 50px; width: 50px;">
+                    <span class="nav__text">HOME</span>
+                </a>
+                <a href="#" class="nav__link" id="neighbourhood_link">
+                    <img src="{% static 'backend/Graphics/NEIGHBORHOOD.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">NEIGHBORHOOD</span>
+                </a>
+                <a href="#" class="nav__link " id="find_friend_link">
+                    <img src="{% static 'backend/Graphics/FINDFRIEND.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">FINDFRIENDS</span>
+                </a>
+                <a href="#" class="nav__link" id="blinkboard-link">
+                    <img src="{% static 'backend/Graphics/BLINKBOARDS.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">BLINKBOARD</span>
+                </a>
+            </nav>
+        </div>
+        <div class="col-sm-9 p-5 " style="display: grid; align-items: center; height: 100vh;">
+            <div class="bb-content-wrapper  " style="overflow: hidden;">
+                <div class="bb-content__inner  my-auto">
+                    <div class="bb-home--wrapper m-4 mx-auto ">
+                        <!-- home screen header  -->
+                        <div class="bb-home--header  justify-content-md-between align-items-center mb-4" style="display: flex;">
+                            <button class="btn btn-primary bb-update__blinkboard-btn bb-home__header-left button__main btn btn-primary fz-12 width-150" onclick="toggleContentEditable()">UPDATE BLINKBOARD</button>
+                            <div class="bb-home__header-right date__blinkboard fz-16 fw-semibold">
+                                <span>Posted on</span><span id="updateDate">{{ user.updated_at|date:"F d, Y" }}</span><span> @ </span><span
+                                    id="updateTime">{{user.updated_at|time:"h:i A" }}</span>
+                                <span>PST</span>
+                            </div>
+                        </div>
+                        <!-- home screen content  -->
+                        <div class="bb-home__content-wrapper">
+                            <div class="bb-home__content-inner" style="border-radius: 10px;">
+                                <div class="bb-blinkboard--content p-md-3 p-2 border border-2 border-dark rounded-medium"
+                                    id="editableContent" contenteditable="false">
+                                    <p id="blinkboardContent" class="fz-22 text-center fw-semibold m-0">
+                                        {{ user.blink_board }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- home screen image  -->
+                        <div class="bb-home__footer d-flex align-items-center flex-wrap">
+                            <div class="col-md-2 col-1">&nbsp;</div>
+                            <div class="col-sm-6">
+                                <div class="bb-home__image-wrapper p-5">
+                                    <div class="bb-home__image-inner">
+                                        <div class="bb-blinkboard--image " id="imageWrapper"
+                                            style="height: 250px; width: 250px; float: right;">
+                                            {% if user.blink_board_image %}
+                                                <img src="{{ user.blink_board_image.url }}" alt="blinkboard_image"
+                                                class="user_blinkboard--image" id="blinkBoardImage"
+                                                style="height: 100%; width: 100%; " />
+                                            {% else %}
+                                                <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="250" height="250">
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-s6 ">
+                                <input type="file" id="fileInputForBlinkBoardImage" accept="image/*" style="display: none;" onchange="handleImageChanging(this)">
+                                <div class="bb-update__blinkboard-img bb-home__footer-right button__main btn btn-primary fz-12 width-150"
+                                    onclick="toggleImageEditable()">
+                                    UPDATE NEW IMAGE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+function deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    }
+
+    // Get the new access token from Django context
+    var accessToken = "{{ access_token }}";
+    // Delete the previous access_token cookie
+
+<!--    deleteCookie("user_id_{user.id}");-->
+
+<!--    document.cookie = "user_id_=" + {{user.id}} + "; path=/";-->
+
+    var access_Token = getCookie("user_id_{{user.id}}");
+
+    var blinkboardLink = document.getElementById("blinkboard-link");
+    var homeLink = document.getElementById("home_link");
+    var homeLink1 = document.getElementById("home_link1");
+    var neighbourhoodLink = document.getElementById("neighbourhood_link");
+    blinkboardLink.href = "{% url 'backend:blinkboard' %}?access_token=" + access_Token;
+    neighbourhoodLink.href = "{% url 'backend:neighbourhood' %}?access_token=" + access_Token;
+    homeLink.href = "{% url 'backend:home' %}?access_token=" + access_Token;
+    homeLink1.href = "{% url 'backend:home' %}?access_token=" + access_Token;
+    var FindFriendLink = document.getElementById("find_friend_link");
+    FindFriendLink.href = "{% url 'backend:findfriend' %}?access_token=" + access_Token;
+
+
+
+<!--    document.cookie = "access_token={{ access_token }}; path=/";-->
+    var selectedFile; // Variable to store the selected file
+
+
+    function toggleContentEditable() {
+        var contentElement = document.getElementById("editableContent");
+        // Toggle the contenteditable attribute
+        var isEditable = contentElement.getAttribute("contenteditable") === "true";
+        contentElement.setAttribute("contenteditable", !isEditable);
+
+        // Change button text based on edit mode
+        var buttonText = isEditable ? "UPDATE BLINKBOARD" : "SAVE CHANGES";
+        document.querySelector(".bb-update__blinkboard-btn").innerText = buttonText;
+
+        // Update date and time when saving changes
+        if (!isEditable) {
+            console.log("Updating");
+
+        }
+        else{
+            var data =  document.getElementById("editableContent").innerText;
+            console.log(data)
+            var csrftoken = getCookie('csrftoken');
+
+    var updateUrl = "{% url 'backend:update' %}";
+
+    // Use the fetch function to make the AJAX request
+    fetch(updateUrl, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+        'Authorization': 'Bearer ' + "{{ access_token }}",
+        },
+        body: JSON.stringify({
+        blink_board: data
+    }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(response => {
+        if (response.success) {
+            // Update HTML with the new user data
+            document.getElementById("location").value = response.user.location;
+            document.getElementById("quote").value = response.user.quote;
+            document.getElementById("bio").value = response.user.bio;
+
+            console.log('Profile updated successfully!');
+            // Optionally display a success message or perform additional actions
+        } else {
+            console.error('Profile update failed:', response.error);
+            // Optionally display an error message or perform additional actions
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+    });
+        }
+    }
+
+    function toggleImageEditable() {
+    var imageWrapper = document.getElementById("imageWrapper");
+    var userImage = document.getElementById("blinkBoardImage");
+    var updateImageButton = document.querySelector(".bb-update__blinkboard-img");
+
+    // Check if in edit mode
+    var isEditable = updateImageButton.innerText === "SAVE IMAGE";
+
+    if (!isEditable) {
+        // Create an input element of type file
+        var fileInput = document.createElement("input");
+
+        fileInput.type = "file";
+        // Add event listener to handle file selection
+        fileInput.addEventListener("change", function (event) {
+            selectedFile = event.target.files[0];
+            console.log("File selected:", selectedFile);
+
+            if (selectedFile) {
+                // Update image source with the selected file
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    userImage.src = e.target.result;
+                };
+                reader.readAsDataURL(selectedFile);
+
+                // Change button text
+                updateImageButton.innerText = "SAVE IMAGE";
+            }
+        });
+
+        // Trigger click event on the file input
+        fileInput.click();
+    } else {
+        // Access the selected file from the "if" block
+        if (selectedFile) {
+
+        var formData = new FormData();
+        var updateUrl = "{% url 'backend:update' %}";
+        var csrftoken = getCookie('csrftoken');
+        formData.append('blink_board_image', selectedFile);
+
+        fetch(updateUrl, {
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': csrftoken,
+        'Authorization': 'Bearer ' + "{{ access_token }}",
+        },
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(response => {
+        if (response.success) {
+            // Update HTML with the new user data
+            document.getElementById("location").value = response.user.location;
+            document.getElementById("quote").value = response.user.quote;
+            document.getElementById("bio").value = response.user.bio;
+
+            console.log('Profile updated successfully!');
+            // Optionally display a success message or perform additional actions
+        } else {
+            console.error('Profile update failed:', response.error);
+            // Optionally display an error message or perform additional actions
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+    });
+
+            selectedFile = null;
+        }
+        updateImageButton.innerText = "UPDATE NEW IMAGE";
+
+        }
+    }
+
+    function toggleEdit() {
+        const editButton = document.getElementById("editButton");
+        const buttonText = editButton.innerHTML.trim();
+
+        const form = document.getElementById("profileForm");
+        const inputs = form.getElementsByTagName("input");
+        const textareas = form.getElementsByTagName("textarea");
+        const imageContainer = document.getElementById("profileImageContainer");
+        const imageOverlay = document.getElementById("imageOverlay");
+        const changeImageButton = document.querySelector(".change-image-button");
+
+        if (buttonText === "EDIT PROFILE") {
+            // Change button text to "Save Changes"
+            editButton.innerHTML = '<button class="btn btn-primary fz-12 width-120">SAVE CHANGES</button>';
+
+            // Enable input fields for editing
+            for (let input of inputs) {
+                input.removeAttribute("disabled");
+            }
+
+            for (let textarea of textareas) {
+                textarea.removeAttribute("disabled");
+            }
+
+            // Show change image button
+            changeImageButton.style.display = "block";
+
+            // Show image overlay with replace icon
+            imageOverlay.style.display = "flex";
+        }
+        else {
+            saveProfileChanges()
+
+            // Change button text back to "Edit Profile"
+            editButton.innerHTML = '<button class="btn btn-primary fz-12 width-120" onclick="toggleEdit()">EDIT PROFILE</button>';
+
+            // Disable input fields after saving changes
+            for (let input of inputs) {
+                input.setAttribute("disabled", true);
+            }
+
+            for (let textarea of textareas) {
+                textarea.setAttribute("disabled", true);
+            }
+
+            // Hide change image button
+            changeImageButton.style.display = "none";
+
+            // Hide image overlay with replace icon
+            imageOverlay.style.display = "none";
+
+
+        }
+        }
+
+    function triggerFileInput() {
+        // Trigger the file input when clicking on the replace icon
+        document.getElementById("fileInput").click();
+    }
+
+    function handleImageChanging(input) {
+        const file = input.files[0];
+        console.log("ImageD" + file)
+
+        if (file) {
+            // Display the selected image in the profile image container
+            const profileImage = document.getElementById("profileImage");
+            profileImage.src = URL.createObjectURL(file);
+
+            // Optional: Show the change image button
+            document.querySelector(".change-image-button").style.display = "block";
+        }
+    }
+
+    function handleImageChange(input) {
+        const file = input.files[0];
+        console.log("ImageD" + file)
+
+        if (file) {
+            // Display the selected image in the profile image container
+            const profileImage = document.getElementById("profileImage");
+            profileImage.src = URL.createObjectURL(file);
+
+            // Optional: Show the change image button
+            document.querySelector(".change-image-button").style.display = "block";
+        }
+    }
+
+    function changeImage() {
+        // Trigger file input to allow image change
+        triggerFileInput();
+    }
+
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+
+    function saveProfileChanges() {
+    var location = document.getElementById("location").value;
+    var quote = document.getElementById("quote").value;
+    var bio = document.getElementById("bio").value;
+
+    var formData = new FormData();
+    formData.append('location', location);
+    formData.append('quote', quote);
+    formData.append('bio', bio);
+
+    // Get the file input element
+    var fileInput = document.getElementById("fileInput");
+    // Check if a file is selected
+    if (fileInput.files.length > 0) {
+        // Append the file to the FormData object
+        formData.append('avatar', fileInput.files[0]);
+    }
+
+
+    var csrftoken = getCookie('csrftoken');
+
+    var updateUrl = "{% url 'backend:update' %}";
+
+    // Use the fetch function to make the AJAX request
+    fetch(updateUrl, {
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': csrftoken,
+        'Authorization': 'Bearer ' + "{{ access_token }}",
+        },
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(response => {
+        if (response.success) {
+            // Update HTML with the new user data
+            document.getElementById("location").value = response.user.location;
+            document.getElementById("quote").value = response.user.quote;
+            document.getElementById("bio").value = response.user.bio;
+
+            console.log('Profile updated successfully!');
+            // Optionally display a success message or perform additional actions
+        } else {
+            console.error('Profile update failed:', response.error);
+            // Optionally display an error message or perform additional actions
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+    });
+}
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+</html>

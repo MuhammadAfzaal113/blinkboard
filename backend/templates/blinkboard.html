@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlinkBoard</title>
+    <style>
+        body {
+            overflow-x: hidden !important;
+        }
+
+        .nav {
+            position: fixed;
+            bottom: 0;
+            width: 24%;
+            height: 70px;
+
+            background-color: rgb(221, 221, 221);
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nav__link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: sans-serif;
+            font-size: 13px;
+            color: #444444;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+
+        .nav__link:hover {
+            background-color: #eeeeee;
+        }
+
+        .nav__link--active {
+            color: #009578;
+        }
+
+        .nav__icon {
+            font-size: 18px;
+        }
+
+        .hh {
+            background-color: rgb(221, 221, 221);
+
+        }
+
+        .main {
+            height: 100vh;
+            margin-left: 0px
+            !important;
+            margin-right: 0px !important;
+        }
+
+        .img-flud {
+            width: 200px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, 50%);
+            position: absolute;
+        }
+
+        .img-flui {
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+
+        .profile-form {
+            max-width: 400px;
+            margin: auto;
+
+            padding: 20px;
+            border-radius: 8px;
+
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .profile-form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+
+        .profile-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .profile-image-container {
+            position: relative;
+            text-align: center;
+            margin: 0 auto;
+            width: 250px;
+            height: 250px;
+        }
+
+        .profile-image {
+            width: 250px;
+            height: 250px;
+
+            object-fit: cover;
+            border: 2px solid #ccc;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .replace-icon {
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .form-control:disabled {
+            background-color: #e9ecef00 !important;
+            opacity: 1;
+            border: aliceblue;
+        }
+
+        .home-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: sans-serif;
+            font-size: 13px;
+            color: #444444;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+
+        .change-image-button {
+            display: none;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+            .bb-home--header {
+                display: grid !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+
+            .bb-content-wrapper {
+                height: 150vh;
+            }
+
+
+
+            .col-sm-3 {
+                width: 100%;
+                flex: 0 0 auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+            }
+
+
+
+            .col-sm-9 {
+                width: 100%;
+                flex: 0 0 auto;
+                overflow-y: scroll;
+                /* Make col-sm-9 scrollable */
+                height: calc(100vh - 80px);
+                /* Adjust the height as needed, considering the height of the navigation bar */
+            }
+
+            .col-sm-9 .container {
+                margin-top: 50px;
+                /* Add margin at the top for better spacing */
+            }
+
+            .col-sm-9 h1 {
+                margin-top: 0;
+                /* Remove top margin for better spacing */
+            }
+
+        }
+
+
+        .bb-home--header {
+            display: flex;
+        }
+
+        @media (min-width: 767px) {
+            .home-logo {
+                display: none;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            /* Hide the home logo for screens smaller than 767px */
+            .home-logo {
+                display: flex;
+            }
+
+            /* Adjust width for the bottom navigation bar in mobile view */
+            .nav {
+                width: 100%;
+                margin: -12px !important;
+                height: 90px !important;
+            }
+
+            .img-fluid {
+                display: none;
+            }
+
+            .iuid {
+                margin-left: 42px !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+        }
+
+        @media (min-width: 375px) and (max-width: 767px) {
+            .col-sm-3 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                height: auto !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+.parent{
+    margin-top: 50px !important;
+}
+            .col-sm-9 {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+            .center-content {
+                display: none !important;
+            }
+            .center-container {
+                height: 3vh !important;
+                text-align: center;
+                margin-top: 0px !important;
+            }
+            .col-sm-9 .container {
+    margin-top: 164px !important;
+}
+        }
+
+        @media (min-width: 768px) and (max-width: 1300px) {
+            .col-sm-3 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                height: auto !important;
+            }
+
+            .home-logo {
+                display: flex;
+            }
+
+            .col-sm-9 {
+                width: 100% !important;
+                flex: 0 0 auto;
+                margin-left: 0 !important;
+            }
+
+            .img-fluid {
+                display: none;
+            }
+
+            .center-content {
+                display: none !important;
+            }
+
+            .col-sm-9 .container {
+                margin-top: 20% !important;
+            }
+
+            .center-container {
+                height: 3vh !important;
+                text-align: center;
+                margin-top: 0px !important;
+            }
+
+            .nav {
+                width: 100%;
+                margin: -12px;
+            }
+
+            body {
+                overflow-x: hidden !important;
+            }
+        }
+
+        .neighbor-img {
+            width: 300px;
+            height: 300px;
+        }
+
+        .center-container {
+            text-align: center;
+            height: 53vh;
+
+            justify-content: center;
+            align-items: center;
+            margin-top: 90px;
+        }
+
+        .center-content {
+
+            text-align: center;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            border-radius: 10px;
+        }
+
+        .find-button {
+            width: 100px !important;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 100px;
+            /* Adjust the width as needed */
+            height: 100px;
+            /* Adjust the height as needed */
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            /* Added margin bottom for separation */
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+
+        }
+
+        .image-wrapper {
+            text-align: center;
+            margin-bottom: 10px;
+            flex: 0 0 23%;
+            /* 23% to allow for some margin and avoid wrapping issues */
+            width: 25%;
+            gap: 20px;
+        }
+
+        .image {
+            width: 100%;
+            /* Adjust the width as needed */
+            height: auto;
+            /* Maintain aspect ratio */
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .image-name {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .myImage {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .col-sm-3 {
+            width: 23%;
+            height: 100vh;
+            flex: 0 0 auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+
+        }
+
+        .col-sm-9 {
+            overflow-y: auto;
+            height: calc(100vh - 0px);
+            /* Adjust the height considering the height of the navigation bar */
+            margin-left: 25%;
+            /* Ensure content doesn't go under col-sm-3 */
+        }
+
+        .col-sm-9 .container {
+            margin-top: 50px;
+        }
+        .parent {
+
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .child {
+            margin: 5px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-info {
+
+            margin: 5px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .full-width {
+
+            margin: 5px;
+            padding: 5px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .posted-time-container {
+            display: flex;
+            justify-content: flex-end;
+            max-width: 100%;
+
+            padding: 5px;
+        }
+
+        .posted-time {
+            align-self: flex-end; /* Aligns to the top right corner within the flex container */
+        }
+
+        .content-area {
+
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 10px;
+            margin-top: 5px;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script>
+    function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('{% url 'backend:blinkboard' %}', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getCookie("access_token")  // Include the authentication token in the headers
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            renderNeighbours(data);
+        })
+        .catch(error => console.error('Error:', error));
+        });
+
+        function renderNeighbours(neighbours) {
+            // Function to render neighbours in your template
+            const neighbourContainer = document.getElementById('neighbour-container');
+
+            // Clear existing content
+            neighbourContainer.innerHTML = '';
+
+            // Loop through the neighbours and append HTML
+            neighbours.forEach(neighbour => {
+                const neighbourHtml = `<div class="row parent">
+                            <div class="col-md-4">
+                                <div class="user-info">
+                                    <div id="username">@{{ neighbour.username}}</div>
+                                    <img src="assest/Graphics/BLINKBOARDS.png" alt="User Image" width="250" height="250">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="child full-width">
+                                    <div class="posted-time-container">
+                                        <div class="posted-time d-none d-md-block">
+                                            <span>Posted on</span><span id="updateDate">{{neighbour.updated_at_date}}</span><span>@</span><span
+                                            id="updateTime">{{neighbour.updated_at_time}}</span>
+                                        <span>PST</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-area">
+                                        <p>{{ neighbour.blink_board }}</p>
+                                    </div>
+                                    <div class="image-container">
+                                        <img src="assest/Graphics/BLINKBOARDS.png" alt="Centered Image" width="150" height="150">
+                                    </div>
+                                </div>
+                            </div>
+                `;
+                neighbourContainer.innerHTML += neighbourHtml;
+            });
+        }
+}
+    </script>
+</head>
+
+<body>
+    <div class="row main" style="overflow: hidden;">
+        <div class="col-sm-3  hh">
+            <div class="bb-nav-wrapper p-5">
+                <div class="bb-nav__inner">
+                    <div class="d-flex align-items-center " style="justify-content: center;">
+                        <!-- Logo 1 -->
+                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" class="img-fluid mb-3 mx-2"
+                                style="height: 100px;min-width: 100px; float: left;"></a>
+
+                        <!-- Logo 2 -->
+                        <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
+                            style="width: 200px; text-align: center; flex-shrink: 0;">
+                    </div>
+                    <div class="center-container ">
+                        <div class="center-content">
+                            <img src="{% static 'backend/Graphics/BLINKBOARDS.png' %}" alt="Centered Image"
+                                style="height: 200px; width: 200px ;"> <br>
+                        </div>
+
+                        <span style="font-weight: 600; font-size: 30px; font-style: italic;">BLINKBOARD</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#" class="home-logo" id="home_link">
+                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" style="height: 50px; width: 50px;">
+                    <span class="nav__text">HOME</span>
+                </a>
+                <a href="#" class="nav__link" id="neighbourhood_link">
+                    <img src="{% static 'backend/Graphics/NEIGHBORHOOD.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">NEIGHBORHOOD</span>
+                </a>
+                <a href="#" class="nav__link" id="find_friend_link">
+                    <img src="{% static 'backend/Graphics/FINDFRIEND.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">FINDFRIENDS</span>
+                </a>
+                <a href="#" class="nav__link" id="blinkboard-link">
+                    <img src="{% static 'backend/Graphics/BLINKBOARDS.png' %}" alt="" style="height:50px; width: 50px;">
+                    <span class="nav__text">BLINKBOARD</span>
+                </a>
+            </nav>
+        </div>
+        <div class="col-sm-9 " style="display: grid; align-items: center;">
+            <div class="gg">
+                <div class="container" style="margin-bottom: 100px;">
+
+                    <h1 class="mt-5 mb-4 text-center" style="margin-top: 500px;">BLINKBOARD</h1>
+                    {% for neighbour in neighbours %}
+                        <div class="row parent">
+                            <div class="col-md-4">
+                                <div class="user-info">
+                                    <div id="username">@{{ neighbour.username}}</div>
+                                    {% if neighbour.avatar %}
+                                        <img src="{{ neighbour.avatar }}" alt="User Image" width="200" height="200">
+                                    {% else %}
+                                        <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="200" height="200">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="child full-width">
+                                    <div class="posted-time-container">
+                                        <div class="posted-time d-none d-md-block">
+                                            <span>Posted on</span><span id="updateDate">{{neighbour.updated_at|date:"F d, Y" }}</span><span>@</span><span
+                                            id="updateTime">{{neighbour.updated_at|time:"h:i A" }}</span>
+                                        <span>PST</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-area">
+                                        <p>{{ neighbour.blink_board }}</p>
+                                    </div>
+                                    <div class="image-container">
+                                        {% if neighbour.blink_board_image %}
+                                            <img src="{{neighbour.blink_board_image}}" alt="Centered Image" width="150" height="150">
+                                        {% else %}
+                                            <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Centered Image" width="150" height="150">
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    var accessToken = getCookie("user_id_{{user.id}}");
+    console.log("USER", accessToken);
+
+    var blinkboardLink = document.getElementById("blinkboard-link");
+    var neighbourhoodlink = document.getElementById("neighbourhood_link");
+    var homeLink = document.getElementById("home_link");
+    var homeLink1 = document.getElementById("home_link1");
+
+
+    blinkboardLink.href = "{% url 'backend:blinkboard' %}?access_token=" + accessToken;
+    neighbourhoodlink.href = "{% url 'backend:neighbourhood' %}?access_token=" + accessToken
+    homeLink.href = "{% url 'backend:home' %}?access_token=" + accessToken;
+    homeLink1.href = "{% url 'backend:home' %}?access_token=" + accessToken;
+var FindFriendLink = document.getElementById("find_friend_link");
+    FindFriendLink.href = "{% url 'backend:findfriend' %}?access_token=" + accessToken;
+
+
+    function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+</script>
+
+</html>

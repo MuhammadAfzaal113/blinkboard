@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../poppin-font/Poppins-Regular.eot');
+    src: url('../poppin-font/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../poppin-font/Poppins-Regular.woff2') format('woff2'),
+        url('../poppin-font/Poppins-Regular.woff') format('woff'),
+        url('../poppin-font/Poppins-Regular.ttf') format('truetype'),
+        url('../poppin-font/Poppins-Regular.svg#Poppins-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../poppin-font/Poppins-Medium.eot');
+    src: url('../poppin-font/Poppins-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../poppin-font/Poppins-Medium.woff2') format('woff2'),
+        url('../poppin-font/Poppins-Medium.woff') format('woff'),
+        url('../poppin-font/Poppins-Medium.ttf') format('truetype'),
+        url('../poppin-font/Poppins-Medium.svg#Poppins-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../poppin-font/Poppins-SemiBold.eot');
+    src: url('../poppin-font/Poppins-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('../poppin-font/Poppins-SemiBold.woff2') format('woff2'),
+        url('../poppin-font/Poppins-SemiBold.woff') format('woff'),
+        url('../poppin-font/Poppins-SemiBold.ttf') format('truetype'),
+        url('../poppin-font/Poppins-SemiBold.svg#Poppins-SemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../poppin-font/Poppins-ThinItalic.eot');
+    src: url('../poppin-font/Poppins-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('../poppin-font/Poppins-ThinItalic.woff2') format('woff2'),
+        url('../poppin-font/Poppins-ThinItalic.woff') format('woff'),
+        url('../poppin-font/Poppins-ThinItalic.ttf') format('truetype'),
+        url('../poppin-font/Poppins-ThinItalic.svg#Poppins-ThinItalic') format('svg');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+

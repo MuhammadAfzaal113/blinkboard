@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@{{ user.username }}'s Profile</title>
+    <style>
+        body, html {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .profile-container {
+            margin-top: 20px;
+        }
+
+        .profile-container img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+	.image-edit-container {
+        text-align: center; /* Centers contents horizontally */
+    }
+
+    .image-edit-container img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        margin-bottom: 10px; /* Space between image and edit link */
+    }
+
+    .edit-link {
+        display: inline-block; /* Makes the link behave like a block for alignment */
+        font-size: 15px; 
+	color: #0000FF;
+        cursor: pointer;
+        margin-top: 5px; /* Adjust as needed */
+}
+
+	.save-link {
+	display: inline-block;
+	font-size: 15px;
+	color: #ff3333;
+	cursor: pointer;
+	margin-top: 5px;
+}
+
+#website-display {
+        margin-bottom: 20px; /* Adds space below the website section */
+    }
+
+
+.blinkboard-container {
+    width: 80%; /* Adjust the width as needed */
+    margin: auto;
+    text-align: center;
+}
+
+
+#blinkboard-post-display, 
+#blinkboard-post-edit {
+    margin: 10px 0;
+    height: 200px;
+}
+
+#blinkboard-post-edit textarea {
+    width: 100%;
+    height: 100%; /* Make the textarea fill its container */
+    resize: none; /* Disable resizing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Add this to your CSS file or <style> tag */
+    #lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox .close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+        .hidden {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <h1>@{{ user.username }}</h1>
+
+ <div class="image-edit-container">
+        <img src="{{ url_for('static', filename=user.profile_picture if user.profile_picture else 'uploads/default.png') }}" alt="Profile Picture">
+
+        <!-- Invisible form for file upload -->
+        <form id="profile-picture-form" action="/upload_profile_picture" method="post" enctype="multipart/form-data" class="hidden">
+            <input type="file" id="profile-picture-file" name="profile_picture" onchange="document.getElementById('profile-picture-form').submit();">
+        </form>
+	<br>        
+        <!-- Edit link that triggers file input -->
+        <span class="edit-link" onclick="document.getElementById('profile-picture-file').click();">[edit]</span>
+    </div>
+
+    <div id="quote-display">
+        <p>“{{ user.quote }}”</p>
+        <span class="edit-link" onclick="toggleEdit('quote')">[edit]</span>
+    </div>
+
+    <div id="quote-edit" class="hidden">
+        <input type="text" maxlength="60" id="quote-input" value="{{ user.quote }}"><br>
+        <span class="save-link" onclick="saveEdit('quote')">[save]</span>
+    </div>
+
+    <div id="bio-display">
+        <p>{{ user.bio }}</p>
+        <span class="edit-link" onclick="toggleEdit('bio')">[edit]</span>
+    </div>
+    <div id="bio-edit" class="hidden">
+        <input type="text" maxlength="75" id="bio-input" value="{{ user.bio }}"><br>
+        <span class="save-link" onclick="saveEdit('bio')">[save]</span>
+    </div>
+
+    <div id="website-display">
+        <p><a href="{{ user.website }}">{{ user.website }}</a></p>
+        <span class="edit-link" onclick="toggleEdit('website')">[edit]</span>
+    </div>
+    <div id="website-edit" class="hidden">
+        <input type="text" maxlength="75" id="website-input" value="{{ user.website }}"><br>
+        <span class="save-link" onclick="saveEdit('website')">[save]</span>
+    </div>
+
+    <div class="blinkboard-container">
+        <div id="blinkboard-post-display" class="blinkboard-display">
+            <p>{{ user.blinkboard_post }}</p><br>
+            <!-- Display the image if it exists -->
+            {% if user.blinkboard_post.image %}
+            <img src="/uploads/{{ user.blinkboard_post.image }}" alt="Post Image" id="post-thumbnail">
+        {% endif %}
+            <span class="edit-link" onclick="toggleEdit('blinkboard-post')">[edit]</span>
+        </div>
+
+        <div id="blinkboard-post-edit" class="blinkboard-edit hidden">
+            <form id="blinkboard-post-form" action="/update_blinkboard_post" method="post" enctype="multipart/form-data">
+            <textarea id="blinkboard-post-input" maxlength="300">{{ user.blinkboard_post }}</textarea><br>
+            <!-- File input for image upload -->
+            <form action="/upload_image" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>
+            <span class="save-link" onclick="saveEdit('blinkboard-post')">[save]</span>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function toggleEdit(section) {
+    var displayElement = document.getElementById(section + '-display');
+    var editElement = document.getElementById(section + '-edit');
+    displayElement.classList.toggle('hidden');
+    editElement.classList.toggle('hidden');
+}
+
+function saveEdit(section) {
+    var inputElement = document.getElementById(section + '-input');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/update_' + section.replace('-', '_'), true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            var displayElement = document.getElementById(section + '-display');
+            if (displayElement) {
+                displayElement.querySelector('p').textContent = inputElement.value;
+            }
+            toggleEdit(section);
+        }
+    };
+    xhr.send('username=' + encodeURIComponent('{{ user.username }}') + '&value=' + encodeURIComponent(inputElement.value));
+}
+
+function closeLightbox() {
+    var lightbox = document.getElementById('blinkboard-lightbox');
+    lightbox.style.display = 'none';
+}
+
+// Optional: Close lightbox when clicking outside of the image
+window.onclick = function(event) {
+    var lightbox = document.getElementById('blinkboard-lightbox');
+    if (event.target == lightbox) {
+        lightbox.style.display = 'none';
+    }
+}
+
+document.getElementById('blinkboard-post-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var formData = new FormData(this); // 'this' refers to the form
+    formData.append('username', '{{ user.username }}'); // Append the username
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', this.action, true);
+
+    xhr.onload = function() {
+        if (this.status == 200) {
+            var response = JSON.parse(this.responseText);
+            if (response.success) {
+                // Handle success, such as updating the UI or showing a message
+                alert("Blinkboard post updated successfully.");
+                location.reload(); // Optionally reload the page to show changes
+            } else {
+                // Handle failure
+                alert("There was an error updating the Blinkboard post.");
+            }
+        }
+    };
+
+    xhr.send(formData); // Send the form data
+});
+
+// Add this to your JavaScript file or a <script> tag
+    document.getElementById('post-thumbnail').addEventListener('click', function() {
+    var lightbox = document.createElement('div');
+    lightbox.id = 'lightbox';
+    document.body.appendChild(lightbox);
+
+    var img = document.createElement('img');
+    img.src = this.src;
+    lightbox.appendChild(img);
+
+    lightbox.addEventListener('click', function() {
+        lightbox.parentElement.removeChild(lightbox);
+    });
+});
+
+
+
+</script>
+
+</body>
+</html>
+

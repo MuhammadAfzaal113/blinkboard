@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up for Blinkboard</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            text-align: center;
+            width: 90%;
+            padding: 20px;
+        }
+
+        .logo img {
+            width: 400px;
+            margin-bottom: 60px;
+        }
+
+        input[type=text], input[type=password], button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity:1;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            color: #333;
+            text-align: center;
+        }
+
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+        .info { background-color: #d1ecf1; }
+
+	.warning-message {
+    		color: red;
+    		font-size: small;
+    		margin-left: 5px;
+    		visibility: hidden; /* The space is reserved, but it's not visible */
+	}
+
+        @media (min-width: 600px){ 
+ 
+{
+    input[type=text], input[type=password], button {
+        font-size: 16px; /* Larger font size for better readability */
+        padding: 15px; /* Increased padding */
+    }
+
+           .form-container {
+                width: 520px;
+		padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='blinkboard-logo.png') }}" alt="Blinkboard Logo">
+    </div>
+
+    <form action="/signup" method="post">
+        <div>
+     <span id="username-warning" class="warning-message" style="display: none;">Username has a max length of 20 characters</span>  
+     <input type="text" maxlength="20" id="username" name="username" required placeholder="Username">
+       </div>
+        <div>
+            <input type="password" id="password" name="password" required placeholder="Password">
+        </div>
+        <div>
+            <button type="submit">Sign Up</button>
+        </div>
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</div>
+
+<script>
+    document.getElementById('username').addEventListener('input', function() {
+        var maxLength = this.maxLength;
+        var currentLength = this.value.length;
+    document.getElementById('username-warning').style.visibility = (currentLength >= maxLength) ? 'visible' : 'hidden';
+});
+</script>
+</body>
+</html>
