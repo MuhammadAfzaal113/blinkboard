@@ -9,4 +9,5 @@ PyJWT==2.8.0
 pytz==2023.4
 sqlparse==0.4.4
 python-dotenv==1.0.1
-daphne==4.1.0
+daphne==3.0.2
+channels==3.0.4
