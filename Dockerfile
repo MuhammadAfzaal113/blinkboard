@@ -9,9 +9,9 @@ RUN apt-get update \
 && apt-get install -y cron
 RUN touch /var/log/blinkboard.log
 WORKDIR /code
-COPY requirements.txt /blink_board/
-RUN pip install -r /blink_board/requirements.txt
-COPY . /blink_board/
+COPY requirements.txt /blinkboard/
+RUN pip install -r /blinkboard/requirements.txt
+COPY . /blinkboard/
 
 EXPOSE 8000
 EXPOSE 8001
