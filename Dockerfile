@@ -9,6 +9,7 @@ RUN apt-get update \
 && apt-get install -y cron
 RUN touch /var/log/blinkboard.log
 WORKDIR /code
+RUN ls -la
 COPY requirements.txt /blink_board/
 RUN pip install -r requirements.txt
 COPY . /blink_board/
