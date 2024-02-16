@@ -11,7 +11,7 @@ RUN touch /var/log/blinkboard.log
 WORKDIR /
 COPY requirements.txt /blinkboard/
 RUN pip install -r /blinkboard/requirements.txt
-COPY . /blinkboard/
+COPY . /blinkboard
 
 EXPOSE 8000
 EXPOSE 8001
