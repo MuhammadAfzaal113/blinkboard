@@ -1,0 +1,26 @@
+version: "2.2"
+
+services:
+  db:
+      image: postgres:latest
+      volumes:
+        - ./data/db:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_DB=blinkboard
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+  #    command: -p 5432
+
+  web:
+    container_name: blinkboard
+    build: .
+    command: daphne -b 0.0.0.0 -p 8000 blinkboard.asgi:application
+    #    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/blink_board
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
