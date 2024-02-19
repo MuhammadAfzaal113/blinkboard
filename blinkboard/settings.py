@@ -18,7 +18,6 @@ from dotenv import dotenv_values
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 config = dotenv_values(".env")
-print(config)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -120,13 +119,24 @@ ASGI_APPLICATION = "blinkboard.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': 'db',
+#         'NAME': str(config['NAME']),
+#         'USER': str(config['USER']),
+#         'PASSWORD': str(config['PASSWORD']),
+#         'port': '5432'
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'db',
-        'NAME': str(config['NAME']),
-        'USER': str(config['USER']),
-        'PASSWORD': str(config['PASSWORD']),
+        'HOST': 'localhost',
+        'NAME': 'blinkboard',
+        'USER': 'postgres',
+        'PASSWORD': '12345678',
         'port': '5432'
     }
 }

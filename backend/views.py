@@ -4,12 +4,14 @@ import time
 import uuid
 
 from django.contrib.auth import authenticate, login
+from django.forms import model_to_dict
 from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from .models import User, Friends
@@ -119,18 +121,18 @@ def sign_up(request):
         if User.objects.filter(username=username).exists():
             return HttpResponseBadRequest('Username already exists. Please choose a different Username.')
         User.objects.create_user(email=email, username=username, password=password)
-        return render(request, 'login.html')
+        return render(request, 'NewUserLogin.html')
 
 
 @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
 def update_user(request):
-    if request.method == 'GET':
-        try:
-            user = request.user
-            return render(request, 'homeProfile.html', {'user': user})
-        except Exception as e:
-            return render(request, 'login.html')
+    # if request.method == 'GET':
+    #     try:
+    #         user = request.user
+    #         return render(request, 'homeProfile.html', {'user': user})
+    #     except Exception as e:
+    #         return render(request, 'login.html')
 
     if request.method == 'POST':
         try:
@@ -167,7 +169,9 @@ def update_user(request):
                     else:
                         print("Uploaded file is empty.")
                 user.save()
-                return render(request, 'homeProfile.html', context={'user': user})
+                user = model_to_dict(user)
+                return JsonResponse({'user': user, 'success': True})
+                # return render(request, 'homeProfile.html', context={'user': user})
             else:
                 print("User not authenticated!")
                 return JsonResponse({'success': False, 'error': 'User not authenticated'}, status=401)
@@ -374,12 +378,10 @@ def delete_friend(request):
             if Friends.objects.filter(from_user=user_name, to_user=user).exists():
                 friendship = Friends.objects.filter(from_user=user_name, to_user=user).first()
                 friendship.delete()
-                print("1st")
                 return redirect(reverse('backend:neighbourhood') + f'?access_token={access_token}')
             elif Friends.objects.filter(to_user=user_name, from_user=user).exists():
                 friendship = Friends.objects.filter(to_user=user_name, from_user=user).first()
                 friendship.delete()
-                print("2nd")
                 return redirect(reverse('backend:neighbourhood') + f'?access_token={access_token}')
 
             else:
@@ -423,6 +425,7 @@ def homeProfile(request):
                 # return Response(context)
 
                 # Render the desired template, for example 'homeProfile.html'
+
                 return render(request, 'homeProfile.html', context)
             else:
                 return JsonResponse("No User Found")

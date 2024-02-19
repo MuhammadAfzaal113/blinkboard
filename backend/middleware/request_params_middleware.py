@@ -20,7 +20,6 @@ class AccessTokenMiddleware:
             except ObjectDoesNotExist:
                 # Handle the case where the user is not found
                 pass
-        print(request.user)
         response = self.get_response(request)
         return response
 

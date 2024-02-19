@@ -107,13 +107,13 @@
             position: relative;
             text-align: center;
             margin: 0 auto;
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
         }
 
         .profile-image {
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
 
             object-fit: cover;
             border: 2px solid #ccc;
@@ -331,15 +331,21 @@
                             <label for="quote"
                                 class="bb-profile--info__title fz-14 text-center fst-italic">Quote</label>
                             <div class="form-group">
-                                <textarea class="form-control fz-16 fw-medium text-center" id="quote" rows="2"
+                                <textarea class="form-control fz-16 fw-medium " style="resize:none;" id="quote" rows="2"
                                     disabled>{{ user.quote}}</textarea>
                             </div>
 
                             <label for="bio" class="bb-profile--info__title fz-14 text-center fst-italic" >Bio</label>
                             <div class="form-group">
-                                <textarea class="form-control fz-16 fw-medium text-center" id="bio" rows="4" style="margin-bottom:70px;"
+                                <textarea class="form-control fz-16 fw-medium " style="resize:none;"  id="bio" rows="3" style="margin-bottom:70px;"
                                     disabled>{{ user.bio }}</textarea>
                             </div>
+
+                           <div class="bb-update__linkboard-btn text-center my-2 bb-home__header-left button__main fz-12">
+                             <a href="{% url 'backend:login' %}"><button class="btn btn-danger fz-12 width-120" style="margin-bottom:10px;" id="logout" onclick="logout()">Logout</button>
+                           </a>
+                           </div>
+
                         </div>
                     </div>
                     <input type="file" id="fileInput" style="display: none;" accept="image/*"
@@ -374,7 +380,7 @@
                         <div class="bb-home--header  justify-content-md-between align-items-center mb-4" style="display: flex;">
                             <button class="btn btn-primary bb-update__blinkboard-btn bb-home__header-left button__main btn btn-primary fz-12 width-150" onclick="toggleContentEditable()">UPDATE BLINKBOARD</button>
                             <div class="bb-home__header-right date__blinkboard fz-16 fw-semibold">
-                                <span>Posted on</span><span id="updateDate">{{ user.updated_at|date:"F d, Y" }}</span><span> @ </span><span
+                                <span>Posted on</span>&nbsp;<span id="updateDate">{{ user.updated_at|date:"F d, Y" }}</span><span> @ </span><span
                                     id="updateTime">{{user.updated_at|time:"h:i A" }}</span>
                                 <span>PST</span>
                             </div>
@@ -474,7 +480,6 @@ function deleteCookie(name) {
         }
         else{
             var data =  document.getElementById("editableContent").innerText;
-            console.log(data)
             var csrftoken = getCookie('csrftoken');
 
     var updateUrl = "{% url 'backend:update' %}";
@@ -492,19 +497,23 @@ function deleteCookie(name) {
     }),
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+        window.location.reload(true);
+        return response.json;
     })
     .then(response => {
         if (response.success) {
+
             // Update HTML with the new user data
             document.getElementById("location").value = response.user.location;
             document.getElementById("quote").value = response.user.quote;
             document.getElementById("bio").value = response.user.bio;
 
-            console.log('Profile updated successfully!');
+            var updatedAtDate = new Date(clickedNeighbor.updated_at);
+            var formattedDate = updatedAtDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            var formattedTime = updatedAtDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+            document.getElementById("updateDate").value = formattedDate;
+            document.getElementById("updateTime").value = formattedTime;
             // Optionally display a success message or perform additional actions
         } else {
             console.error('Profile update failed:', response.error);
@@ -534,7 +543,6 @@ function deleteCookie(name) {
         // Add event listener to handle file selection
         fileInput.addEventListener("change", function (event) {
             selectedFile = event.target.files[0];
-            console.log("File selected:", selectedFile);
 
             if (selectedFile) {
                 // Update image source with the selected file
@@ -569,24 +577,11 @@ function deleteCookie(name) {
         body: formData,
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+       window.location.reload(true);
+        return response;
     })
     .then(response => {
-        if (response.success) {
-            // Update HTML with the new user data
-            document.getElementById("location").value = response.user.location;
-            document.getElementById("quote").value = response.user.quote;
-            document.getElementById("bio").value = response.user.bio;
-
-            console.log('Profile updated successfully!');
-            // Optionally display a success message or perform additional actions
-        } else {
-            console.error('Profile update failed:', response.error);
-            // Optionally display an error message or perform additional actions
-        }
+        window.location.reload(true);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -613,7 +608,7 @@ function deleteCookie(name) {
 
         if (buttonText === "EDIT PROFILE") {
             // Change button text to "Save Changes"
-            editButton.innerHTML = '<button class="btn btn-primary fz-12 width-120">SAVE CHANGES</button>';
+            editButton.textContent = "Save Changes";
 
             // Enable input fields for editing
             for (let input of inputs) {
@@ -634,7 +629,7 @@ function deleteCookie(name) {
             saveProfileChanges()
 
             // Change button text back to "Edit Profile"
-            editButton.innerHTML = '<button class="btn btn-primary fz-12 width-120" onclick="toggleEdit()">EDIT PROFILE</button>';
+            editButton.textContent = "Edit Profile";
 
             // Disable input fields after saving changes
             for (let input of inputs) {
@@ -662,7 +657,6 @@ function deleteCookie(name) {
 
     function handleImageChanging(input) {
         const file = input.files[0];
-        console.log("ImageD" + file)
 
         if (file) {
             // Display the selected image in the profile image container
@@ -676,7 +670,6 @@ function deleteCookie(name) {
 
     function handleImageChange(input) {
         const file = input.files[0];
-        console.log("ImageD" + file)
 
         if (file) {
             // Display the selected image in the profile image container
@@ -733,37 +726,25 @@ function deleteCookie(name) {
 
     // Use the fetch function to make the AJAX request
     fetch(updateUrl, {
-        method: 'POST',
-        headers: {
+    method: 'POST',
+    headers: {
         'X-CSRFToken': csrftoken,
         'Authorization': 'Bearer ' + "{{ access_token }}",
-        },
-        body: formData,
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(response => {
-        if (response.success) {
-            // Update HTML with the new user data
-            document.getElementById("location").value = response.user.location;
-            document.getElementById("quote").value = response.user.quote;
-            document.getElementById("bio").value = response.user.bio;
+    },
+    body: formData,
+}).then(response => {
+window.location.reload(true);
 
-            console.log('Profile updated successfully!');
-            // Optionally display a success message or perform additional actions
-        } else {
-            console.error('Profile update failed:', response.error);
-            // Optionally display an error message or perform additional actions
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle error
-    });
+    return response;
+}).then(response => {
+window.location.reload(true);
+
+    console.log(response);
+}).catch(error => {
+    console.error('Error:', error);
+    // Handle error
+});
+
 }
 
 </script>
