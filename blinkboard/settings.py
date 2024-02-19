@@ -119,27 +119,27 @@ ASGI_APPLICATION = "blinkboard.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'HOST': 'db',
-#         'NAME': str(config['NAME']),
-#         'USER': str(config['USER']),
-#         'PASSWORD': str(config['PASSWORD']),
-#         'port': '5432'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
-        'NAME': 'blinkboard',
-        'USER': 'postgres',
-        'PASSWORD': '12345678',
+        'HOST': 'db',
+        'NAME': str(config['NAME']),
+        'USER': str(config['USER']),
+        'PASSWORD': str(config['PASSWORD']),
         'port': '5432'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': 'localhost',
+#         'NAME': 'blinkboard',
+#         'USER': 'postgres',
+#         'PASSWORD': '12345678',
+#         'port': '5432'
+#     }
+# }
 
 
 # Password validation
