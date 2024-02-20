@@ -289,7 +289,7 @@
                     <div class="d-flex align-items-center " style="justify-content: center;">
                         <!-- Logo 1 -->
                         <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" class="img-fluid "
-                                style="height: 100px;min-width: 100px; float: left;"></a>
+                                style="height:50px; width: 50px;"></a>
 
                         <!-- Logo 2 -->
                         <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
@@ -304,7 +304,7 @@
                             {% if user.avatar %}
                                 <img src="{{ user.avatar.url }}" alt="Profile Image" class="profile-image" id="profileImage" />
                             {% else %}
-                                <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="250" height="250">
+                                <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="200" height="200">
                             {% endif %}
                             <div class="overlay" id="imageOverlay">
                                 <div class="replace-icon" onclick="triggerFileInput()">
