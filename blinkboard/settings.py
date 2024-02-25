@@ -13,6 +13,8 @@ from datetime import timedelta
 from pathlib import Path
 import os
 from dotenv import dotenv_values
+# from storages.backends.s3boto import S3BotoStorage
+from io import StringIO
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     'rest_framework_simplejwt',
-    "backend"
+    "backend",
+    "storages"
 ]
 
 MIDDLEWARE = [
@@ -99,9 +102,9 @@ LOGIN_URL = 'backend:login'  # Use the name of your login view, including the ap
 SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_SAMESITE = 'None'
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10  # 10 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 20  # 20 MB
 # settings.py
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
 
 
 # myproject/settings.py
@@ -119,27 +122,27 @@ ASGI_APPLICATION = "blinkboard.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'db',
-        'NAME': str(config['NAME']),
-        'USER': str(config['USER']),
-        'PASSWORD': str(config['PASSWORD']),
-        'port': '5432'
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'HOST': 'localhost',
-#         'NAME': 'blinkboard',
-#         'USER': 'postgres',
-#         'PASSWORD': '12345678',
+#         'HOST': 'db',
+#         'NAME': str(config['NAME']),
+#         'USER': str(config['USER']),
+#         'PASSWORD': str(config['PASSWORD']),
 #         'port': '5432'
 #     }
 # }
+#
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'localhost',
+        'NAME': 'blinkboard',
+        'USER': 'postgres',
+        'PASSWORD': '12345678',
+        'port': '5432'
+    }
+}
 
 
 # Password validation
@@ -184,3 +187,14 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# AWS_ACCESS_KEY_ID = str(config['AWS_ACCESS_KEY_ID'])
+# AWS_SECRET_ACCESS_KEY = str(config['AWS_SECRET_ACCESS_KEY'])
+# AWS_STORAGE_BUCKET_NAME = str(config['AWS_STORAGE_BUCKET_NAME'])
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = DATA_UPLOAD_MAX_MEMORY_SIZE

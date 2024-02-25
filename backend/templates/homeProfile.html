@@ -21,7 +21,9 @@
             display: flex;
             overflow-x: auto;
         }
-
+.bb-home--header{
+display: flex;
+}
         .nav__link {
             display: flex;
             flex-direction: column;
@@ -58,9 +60,12 @@
 
 
 
-        .main {
+             .main {
             height: 100vh;
+            margin-left: 0px !important;
+            margin-right: 0px !important;
         }
+
 
         .img-flud {
             width: 200px;
@@ -214,7 +219,12 @@
             body {
                 overflow-x: hidden !important;
             }
-
+            .bb-home--header{
+                 display: block !important;
+            }
+            bb-content-wrapper{
+            margin-top:397px;
+            }
             .col-sm-9 {
                 width: 100% !important;
                 margin-left: 0 !important;
@@ -287,9 +297,7 @@
 <body>
     <div class="row main">
         <div class="col-sm-3  hh">
-            <div class="bb-nav-wrapper p-5">
-                <div class="bb-nav__inner">
-                    <div class="d-flex align-items-center " style="justify-content: center;">
+            <div class="d-flex align-items-center " style="justify-content: center; padding-top:2rem;">
                         <!-- Logo 1 -->
                         <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" class="img-fluid "
                                 style="height:50px; width: 50px;"></a>
@@ -298,6 +306,9 @@
                         <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
                             style="width: 200px; text-align: center; flex-shrink: 0;">
                     </div>
+            <div class="bb-nav-wrapper p-5">
+                <div class="bb-nav__inner">
+
 
                     <div class="bb-username--wrapper mb-4">
                         <h3 class="fz-18 fw-semibold text-center">@{{ user.username }}</h3>
@@ -377,11 +388,11 @@
             </nav>
         </div>
         <div class="col-sm-9 p-5 " style="display: grid; align-items: center; height: 100vh;">
-            <div class="bb-content-wrapper  " style="overflow: hidden;">
+            <div class="bb-content-wrapper  " style="overflow: hidden; ">
                 <div class="bb-content__inner  my-auto">
                     <div class="bb-home--wrapper m-4 mx-auto ">
                         <!-- home screen header  -->
-                        <div class="bb-home--header  justify-content-md-between align-items-center mb-4" style="display: flex;">
+                        <div class="bb-home--header  justify-content-md-between align-items-center mb-4" >
                             <button class="btn btn-primary bb-update__blinkboard-btn bb-home__header-left button__main btn btn-primary fz-12 width-150" onclick="toggleContentEditable()">UPDATE BLINKBOARD</button>
                             <div class="bb-home__header-right date__blinkboard fz-16 fw-semibold">
                                 <span>Posted on</span>&nbsp;<span id="updateDate">{{ user.updated_at|date:"F d, Y" }}</span><span> @ </span><span
@@ -401,8 +412,8 @@
                             </div>
                         </div>
                         <!-- home screen image  -->
-                        <div class="bb-home__footer d-flex align-items-center flex-wrap">
-                            <div class="col-md-2 col-1">&nbsp;</div>
+                        <div class="bb-home__footer d-flex align-items-center flex-wrap" >
+
                             <div class="col-sm-6">
                                 <div class="bb-home__image-wrapper p-5">
                                     <div class="bb-home__image-inner">
@@ -420,7 +431,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-s6 ">
+                            <div class="col-s4 ">
                                 <input type="file" id="fileInputForBlinkBoardImage" accept="image/*" style="display: none;" onchange="handleImageChanging(this)">
                                 <div class="bb-update__blinkboard-img bb-home__footer-right button__main btn btn-primary fz-12 width-150"
                                     onclick="toggleImageEditable()">

@@ -3,6 +3,55 @@ import uuid
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+import os
+
+from blinkboard.settings import config
+
+
+class Util:
+    def make_ref(base='ABCDEFG2345HJKLMN6789PQRSTUVWXYZ'):
+        import time
+        b = len(base)
+        raw = int(time.time() * 1e5 - 1.45e14)
+        n = pow(raw, b, (b ** 7 - b ** 6 - 1)) + b ** 6
+        ref = ""
+        check = 0
+        while n:
+            check = (check + n) % b
+            ref = base[n % b] + ref
+            n //= b
+            time.sleep(0.000000000001)
+        return "-" + ref + base[(-check) % b]
+
+
+def rename_media_file(instance, filename):
+    try:
+        if filename is None:
+            # upload_to = 'SEQ-images/'
+            filename = 'temp/blank.png'
+            ext = filename.split('.')[-1]
+            # get filename
+            if instance.pk:
+                filename = '{}.{}'.format(str(uuid.uuid4().hex) + '-ref' + Util.make_ref().replace("~", "-"), ext)
+            else:
+                # set filename as random string
+                filename = '{}.{}'.format(str(uuid.uuid4().hex) + '-ref' + Util.make_ref().replace("~", "-"), ext)
+                # filename = '{}.{}'.format(created_by, ext)
+            # return the whole path to the file
+        else:
+            # upload_to = 'SEQ-images/'
+            ext = filename.split('.')[-1]
+            # get filename
+            if instance.pk:
+                filename = '{}.{}'.format(str(uuid.uuid4().hex) + '-ref' + Util.make_ref().replace("~", "-"), ext)
+            else:
+                # set filename as random string
+                filename = '{}.{}'.format(str(uuid.uuid4().hex) + '-ref' + Util.make_ref().replace("~", "-"), ext)
+                # filename = '{}.{}'.format(created_by, ext)
+            # return the whole path to the file
+        return os.path.join(filename)
+    except Exception as ex:
+        print(' Exception in rename image file : ', ex)
 
 
 class UserManager(BaseUserManager):
@@ -12,7 +61,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
-        user.is_active=True
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -34,9 +83,11 @@ class User(AbstractBaseUser):
     location = models.CharField(max_length=1000, null=True, blank=True)
     quote = models.CharField(max_length=500, null=True, blank=True)
     bio = models.CharField(max_length=500, null=True, blank=True)
-    avatar = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    avatar = models.FileField(upload_to=rename_media_file, max_length=5000, null=True,
+                              default='https://d12uotnmkhw4d2.cloudfront.net/blank.png')
     blink_board = models.CharField(max_length=1000, null=True, blank=True)
-    blink_board_image = models.ImageField(upload_to='blink_board_image', null=True, blank=True)
+    blink_board_image = models.FileField(upload_to=rename_media_file, max_length=5000, null=True,
+                                         default='https://d12uotnmkhw4d2.cloudfront.net/blank.png')
     updated_at = models.DateTimeField(null=True, blank=True)
 
     objects = UserManager()
@@ -45,7 +96,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['email']
 
 
-#class Friend(models.Model):
+# class Friend(models.Model):
 #     PENDING = 'Pending'
 #     ACCEPTED = 'Accepted'
 #     STATUS_CHOICES = [
@@ -75,11 +126,10 @@ class Friends(models.Model):
 
     class Meta:
         # Define a unique constraint to create a composite primary key
-        unique_together= ['to_user', 'from_user']
+        unique_together = ['to_user', 'from_user']
 
     def __str__(self):
         return f"{self.from_user.username} - {self.to_user.username}"
-
 
 
 # class FriendRequest(models.Model):
@@ -98,3 +148,41 @@ class Friends(models.Model):
 #
 #     def __str__(self):
 #         return f"{self.from_user.username} to {self.to_user.username} - {self.status}"
+
+
+def get_saved_photo(param, target='avatar'):
+    try:
+        if param:
+            if isinstance(param, list):
+                if target == 'avatar':
+                    photo_details = User.objects.filter(avatar__in=param).all().values()
+                elif target == 'blink_board_image':
+                    photo_details = User.objects.filter(blink_board_image__in=param).all().values()
+
+                # photo = photo_details[0] if photo_details else None
+                photo_list = list()
+                for photo in photo_details:
+                    photo['media_file'] = f"https://{config['AWS_STORAGE_BUCKET_NAME']}.s3.amazonaws.com/" + \
+                                          photo_details[0]['media_file'] if \
+                        photo_details else None
+                    photo_list.append(photo)
+                return photo_list
+
+            else:
+                if target == 'avatar':
+                    photo_details = User.objects.filter(avatar=param).all().values()
+                elif target == 'blink_board_image':
+                    photo_details = User.objects.filter(blink_board_image=param).all().values()
+                photo = photo_details[0] if photo_details else None
+                if photo:
+                    photo['media_file'] = f"https://{config['AWS_STORAGE_BUCKET_NAME']}.s3.amazonaws.com/" + \
+                                          photo_details[0]['media_file'] if \
+                        photo_details else None
+                    return photo
+                else:
+                    return None
+        else:
+            return None
+    except Exception as e:
+        print(f'[get_user_photo] throws exception {e}')
+        return None
