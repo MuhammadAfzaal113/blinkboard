@@ -222,9 +222,7 @@ display: flex;
             .bb-home--header{
                  display: block !important;
             }
-            bb-content-wrapper{
-            margin-top:397px;
-            }
+
             .col-sm-9 {
                 width: 100% !important;
                 margin-left: 0 !important;
@@ -299,7 +297,7 @@ display: flex;
         <div class="col-sm-3  hh">
             <div class="d-flex align-items-center " style="justify-content: center; padding-top:2rem;">
                         <!-- Logo 1 -->
-                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" class="img-fluid "
+                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/123.png' %}" alt="Logo 1" class="img-fluid "
                                 style="height:50px; width: 50px;"></a>
 
                         <!-- Logo 2 -->
@@ -320,9 +318,9 @@ display: flex;
                             {% else %}
                                 <img src="{% static 'backend/Graphics/DEFAULTPIC.png' %}" alt="Default Avatar" width="200" height="200">
                             {% endif %}
-                            <div class="overlay" id="imageOverlay">
-                                <div class="replace-icon" onclick="triggerFileInput()">
-                                    <img style="height: 250px; width: 250px;" src="{% static 'backend/Graphics/ADDPROFILEPIC.png' %}"
+                            <div class="overlay" id="imageOverlay" onclick="triggerFileInput()">
+                                <div class="replace-icon" >
+                                    <img style="height: 100px; width: 100px;" src="{% static 'backend/Graphics/ADDPROFILEPIC.png' %}"
                                         alt="">
                                 </div>
                             </div>
@@ -388,8 +386,8 @@ display: flex;
             </nav>
         </div>
         <div class="col-sm-9 p-5 " style="display: grid; align-items: center; height: 100vh;">
-            <div class="bb-content-wrapper  " style="overflow: hidden; ">
-                <div class="bb-content__inner  my-auto">
+            <div class="bb-content-wrapper  " style="overflow: hidden; margin-top:390px;">
+                <div class="bb-content__inner  " >
                     <div class="bb-home--wrapper m-4 mx-auto ">
                         <!-- home screen header  -->
                         <div class="bb-home--header  justify-content-md-between align-items-center mb-4" >
@@ -412,7 +410,7 @@ display: flex;
                             </div>
                         </div>
                         <!-- home screen image  -->
-                        <div class="bb-home__footer d-flex align-items-center flex-wrap" >
+                        <div class="bb-home__footer d-flex align-items-center flex-wrap" style="margin-bottom:75px;">
 
                             <div class="col-sm-6">
                                 <div class="bb-home__image-wrapper p-5">
