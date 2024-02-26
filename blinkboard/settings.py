@@ -136,7 +136,7 @@ ASGI_APPLICATION = "blinkboard.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'NAME': 'blinkboard',
         'USER': 'postgres',
         'PASSWORD': '12345678',
