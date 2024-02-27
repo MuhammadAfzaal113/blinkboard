@@ -581,8 +581,7 @@
         <div class="col-sm-3  hh">
              <div class="d-flex align-items-center " style="justify-content: center; padding-top:2rem;">
                         <!-- Logo 1 -->
-                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/123.png' %}" alt="Logo 1" class="img-fluid "
-                                style="height:50px; width: 50px;"></a>
+
 
                         <!-- Logo 2 -->
                         <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
@@ -602,8 +601,8 @@
                 </div>
             </div>
             <nav class="nav">
-                <a href="#" class="home-logo" id="home_link">
-                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" style="height: 50px; width: 50px;">
+           <a href="#" class="nav__link" id="home_link">
+                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="" style="height:50px; width: 50px;">
                     <span class="nav__text">HOME</span>
                 </a>
                 <a href="#" class="nav__link" id="neighbourhood_link">
@@ -679,13 +678,12 @@
     var blinkboardLink = document.getElementById("blinkboard-link");
     var neighbourhoodlink = document.getElementById("neighbourhood_link");
     var homeLink = document.getElementById("home_link");
-    var homeLink1 = document.getElementById("home_link1");
-
+<!--    var homeLink1 = document.getElementById("home_link1");-->
 
     blinkboardLink.href = "{% url 'backend:blinkboard' %}?access_token=" + accessToken;
     neighbourhoodlink.href = "{% url 'backend:neighbourhood' %}?access_token=" + accessToken
     homeLink.href = "{% url 'backend:home' %}?access_token=" + accessToken;
-    homeLink1.href = "{% url 'backend:home' %}?access_token=" + accessToken;
+<!--    homeLink1.href = "{% url 'backend:home' %}?access_token=" + accessToken;-->
 var FindFriendLink = document.getElementById("find_friend_link");
     FindFriendLink.href = "{% url 'backend:findfriend' %}?access_token=" + accessToken;
 

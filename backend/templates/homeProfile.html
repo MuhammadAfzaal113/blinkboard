@@ -297,8 +297,7 @@ display: flex;
         <div class="col-sm-3  hh">
             <div class="d-flex align-items-center " style="justify-content: center; padding-top:2rem;">
                         <!-- Logo 1 -->
-                        <a href="#" id="home_link1"><img src="{% static 'backend/Graphics/123.png' %}" alt="Logo 1" class="img-fluid "
-                                style="height:50px; width: 50px;"></a>
+
 
                         <!-- Logo 2 -->
                         <img src="{% static 'backend/Graphics/BLINKBOARDLOGO.png' %}" alt="Logo 2" class="iuid "
@@ -367,8 +366,8 @@ display: flex;
                 </div>
             </div>
             <nav class="nav" style="margin-left:12px;">
-                <a href="#" class="home-logo" id="home_link">
-                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="Logo 1" style="height: 50px; width: 50px;">
+                <a href="#" class="nav__link" id="home_link">
+                    <img src="{% static 'backend/Graphics/HOME.png' %}" alt="" style="height:50px; width: 50px;">
                     <span class="nav__text">HOME</span>
                 </a>
                 <a href="#" class="nav__link" id="neighbourhood_link">
@@ -410,7 +409,7 @@ display: flex;
                             </div>
                         </div>
                         <!-- home screen image  -->
-                        <div class="bb-home__footer d-flex align-items-center flex-wrap" style="margin-bottom:75px;">
+                        <div class="bb-home__footer d-flex align-items-center flex-wrap" >
 
                             <div class="col-sm-6">
                                 <div class="bb-home__image-wrapper p-5">
@@ -460,13 +459,14 @@ function deleteCookie(name) {
     var access_Token = getCookie("user_id_{{user.id}}");
 
     var blinkboardLink = document.getElementById("blinkboard-link");
+    console.log("BlonkBoard div", blinkboardLink);
     var homeLink = document.getElementById("home_link");
-    var homeLink1 = document.getElementById("home_link1");
+<!--    var homeLink1 = document.getElementById("home_link1");-->
     var neighbourhoodLink = document.getElementById("neighbourhood_link");
     blinkboardLink.href = "{% url 'backend:blinkboard' %}?access_token=" + access_Token;
     neighbourhoodLink.href = "{% url 'backend:neighbourhood' %}?access_token=" + access_Token;
     homeLink.href = "{% url 'backend:home' %}?access_token=" + access_Token;
-    homeLink1.href = "{% url 'backend:home' %}?access_token=" + access_Token;
+<!--    homeLink1.href = "{% url 'backend:home' %}?access_token=" + access_Token;-->
     var FindFriendLink = document.getElementById("find_friend_link");
     FindFriendLink.href = "{% url 'backend:findfriend' %}?access_token=" + access_Token;
 
