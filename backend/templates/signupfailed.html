@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login|-BlinkBoard</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Add Custom Style CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'backend/style.css' %}"
+    />
+
+  </head>
+  <body>
+    <section class="bb-main--body">
+      {% csrf_token %}
+      <div class="bb--screen-block signup--screen" style="margin-top: 30vh; border:none;">
+        <div class="bb-signup-screen-container">
+          <div class="bb-form-wrapper">
+            <div class="bb-signupform__wrapper mx-auto">
+              <div class="bb-signupform__inner">
+                <div class="bb-signupform__logo-wrapper py-3 mb-3">
+                  <img
+                    src="{% static 'backend/logo.jpg' %}"
+                    alt=""
+                    class="bb-logo img-fluid"
+                  />
+                </div>
+                <div class="bb-signupform__wrapper">
+                  <form method="post" action="{% url 'backend:signup' %}" class="bb__signup-form mx-auto">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="signup__username"
+                        maxlength="16"
+                        pattern="[A-Za-z0-9]+"
+                        placeholder="Username"
+                        name="username"
+                      />
+                    </div>
+                    <!-- Password Input -->
+                    <div class="form-group">
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="signup__password"
+                        maxlength="16"
+                        placeholder="Password"
+                        name="password"
+                      />
+                    </div>
+                    <!-- Email Input -->
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="signup__email"
+                        placeholder="Email"
+                        name="email"
+                      />
+                    </div>
+                    <div class="form__alert alert alert-danger mt-3 fz-16 text-center">
+                                        <p style="padding: 0.375rem 0.75rem; margin-bottom:0px;">Account Already Exists</p>
+                                    </div>
+                    <!-- signup Button -->
+                    <button type="submit" class="btn btn-success btn-block bb-form__btn" id="signup__submit">
+                      Signup
+                    </button>
+<!--                    <div class="form__alert alert alert-danger mt-3 fz-16 text-center" style="display:none;" role="alert">-->
+<!--                       This account already exists,please login-->
+<!--                      </div>-->
+                  </form>
+                  <!-- Registration Message -->
+
+                  <p class="mt-3 text-center fz-16">
+                    Already have an account? <a href="{% url 'backend:login' %}" class="bb-form__switcher">Login here</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add Bootstrap JS and jQuery -->
+<!--    <script src="../Assets/includes/js/jquery.js"></script>-->
+    <!-- custom script here -->
+<!--    <script src="../Assets/includes/js/formscript.js"></script>-->
+  </body>
+</html>

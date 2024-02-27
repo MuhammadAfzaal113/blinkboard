@@ -66,42 +66,45 @@ def login_view(request):
     elif request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
-        user = authenticate(username=username, password=password)
+        try:
+            user = authenticate(username=username, password=password)
 
-        if user:
-            login(request, user)
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-            refresh_token = str(refresh)
+            if user:
+                login(request, user)
+                refresh = RefreshToken.for_user(user)
+                access_token = str(refresh.access_token)
+                refresh_token = str(refresh)
 
-            context = {
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'location': user.location,
-                    'bio': user.bio,
-                    'quote': user.quote,
-                    'avatar': user.avatar if user.avatar else None,
-                    'blink_board': user.blink_board,
-                    'blink_board_image': user.blink_board_image,
-                    'updated_at': user.updated_at
+                context = {
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'location': user.location,
+                        'bio': user.bio,
+                        'quote': user.quote,
+                        'avatar': user.avatar if user.avatar else None,
+                        'blink_board': user.blink_board,
+                        'blink_board_image': user.blink_board_image,
+                        'updated_at': user.updated_at
 
-                },
-                'access_token': access_token,
-            }
+                    },
+                    'access_token': access_token,
+                }
 
-            # return Response(context)
-            # session_id = str(user.id)
+                # return Response(context)
+                # session_id = str(user.id)
 
-            # Render the desired template, for example 'homeProfile.html'
-            response = render(request, 'homeProfile.html', context)
-            # response.set_cookie('access_token', access_token)
-            response.set_cookie('access_token', access_token)
-            response.set_cookie(f'user_id_{user.id}', user.id)
+                # Render the desired template, for example 'homeProfile.html'
+                response = render(request, 'homeProfile.html', context)
+                # response.set_cookie('access_token', access_token)
+                response.set_cookie('access_token', access_token)
+                response.set_cookie(f'user_id_{user.id}', user.id)
 
-            return response
-        else:
+                return response
+            else:
+                return render(request, 'loginFailed.html')
+        except:
             return render(request, 'loginFailed.html')
 
 
@@ -116,10 +119,10 @@ def sign_up(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         if User.objects.filter(email=email).exists():
-            return HttpResponseBadRequest('Email already exists. Please choose a different Email.')
+            return render(request, 'signupfailed.html')
 
         if User.objects.filter(username=username).exists():
-            return HttpResponseBadRequest('Username already exists. Please choose a different Username.')
+            return render(request, 'signupfailed.html')
         User.objects.create_user(email=email, username=username, password=password)
         return render(request, 'NewUserLogin.html')
 
